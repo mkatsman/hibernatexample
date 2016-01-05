@@ -1,24 +1,26 @@
 package com.javacodegeeks.snippets.enterprise.hibernate.dao;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
 
 public class HibernateUtils {
 
 
-	 private static final SessionFactory sessionFactory = buildSessionFactory();
+	 private static  SessionFactory sessionFactory = createSessionFactory();
 	  
-	    private static SessionFactory buildSessionFactory() {
-	        try {
-	            // Create the SessionFactory from hibernate.cfg.xml
-	            return new AnnotationConfiguration().configure()
-	                    .buildSessionFactory();
-	 
-	        } catch (Throwable ex) {
-	            System.err.println("Initial SessionFactory creation failed." + ex);
-	            throw new ExceptionInInitializerError(ex);
-	        }
-	    }
+	
+	 private static ServiceRegistry serviceRegistry;
+
+	 public static SessionFactory createSessionFactory() {
+	     Configuration configuration = new Configuration();
+	     configuration.configure();
+	     serviceRegistry = new ServiceRegistryBuilder().applySettings(
+	             configuration.getProperties()). buildServiceRegistry();
+	     sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+	     return sessionFactory;
+	 }
 	  
 	    public static SessionFactory getSessionFactory() {
 	        return sessionFactory;

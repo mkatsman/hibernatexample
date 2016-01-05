@@ -1,0 +1,8 @@
+com/javacodegeeks/snippets/enterprise/hibernate/dao/CourseDao.class
+com/javacodegeeks/snippets/enterprise/hibernate/dao/CourseDaoInterface.class
+com/javacodegeeks/snippets/enterprise/hibernate/dao/StudentDao.class
+com/javacodegeeks/snippets/enterprise/hibernate/dao/StudentDaoInterface.class
+com/javacodegeeks/snippets/enterprise/hibernate/dao/HibernateUtils.class
+com/javacodegeeks/snippets/enterprise/hibernate/model/Student.class
+com/javacodegeeks/snippets/enterprise/hibernate/model/Course.class
+com/javacodegeeks/snippets/enterprise/hibernate/app/Main.class
