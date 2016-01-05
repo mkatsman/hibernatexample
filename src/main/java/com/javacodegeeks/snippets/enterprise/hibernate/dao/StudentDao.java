@@ -12,15 +12,11 @@ import com.javacodegeeks.snippets.enterprise.hibernate.model.Student;
 public class StudentDao implements StudentDaoInterface<Student, String> {
 
 	private Session currentSession;
-	
-	private Transaction currentTransaction;
 
 	public StudentDao(Session session) {
-	 this.currentSession = session;
+		this.currentSession = session;
 	}
 
-
-	
 	public Session getCurrentSession() {
 		return currentSession;
 	}
@@ -28,7 +24,6 @@ public class StudentDao implements StudentDaoInterface<Student, String> {
 	public void setCurrentSession(Session currentSession) {
 		this.currentSession = currentSession;
 	}
-
 
 	public void persist(Student entity) {
 		getCurrentSession().save(entity);
@@ -40,49 +35,51 @@ public class StudentDao implements StudentDaoInterface<Student, String> {
 
 	public Student findById(Integer id) {
 		Student student = (Student) getCurrentSession().get(Student.class, id);
-		return student; 
+		return student;
 	}
 
-	public void  registerCourse (Student student , Course course) {
-		
+	public void registerCourse(Student student, Course course) {
+
 		student.getCourses().add(course);
 		this.persist(student);
-		
+
 	}
+
 	public void delete(Integer id) {
 		Student student = this.findById(id);
 		this.delete(student);
 	}
+
 	public void delete(Student entity) {
 		getCurrentSession().delete(entity);
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Student> findAll() {
-		List<Student> students = (List<Student>) getCurrentSession().createQuery("from Student order by name").list();
+		List<Student> students = (List<Student>) getCurrentSession()
+				.createQuery("from Student order by name").list();
 		return students;
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<String> getStudentsByCourseName(List<String> courseNames) {
-		String hql = "select  s.name from Student s " +
-                "join s.courses c " +
-                "where c.name in (:courseNames)";
+		String hql = "select  s.name from Student s " + "join s.courses c "
+				+ "where c.name in (:courseNames)";
 		Query query = getCurrentSession().createQuery(hql);
 		query.setParameterList("courseNames", courseNames);
-		List<String> students =  query.list();
+		List<String> students = query.list();
 		return students;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<String> getStudentsNotRegistredForCourse(List<String> courseNames) {
-		String hql = "select s1.name from Student s1 where s1.name not in( select distinct s.name from Student s " +
-                "join s.courses c " +
-                "where c.name in (:courseNames) )";
-             
+	public List<String> getStudentsNotRegistredForCourse(
+			List<String> courseNames) {
+		String hql = "select s1.name from Student s1 where s1.name not in( select distinct s.name from Student s "
+				+ "join s.courses c " + "where c.name in (:courseNames) )";
+
 		Query query = getCurrentSession().createQuery(hql);
 		query.setParameterList("courseNames", courseNames);
-		List<String> students =  query.list();
+		List<String> students = query.list();
 		return students;
 	}
 
@@ -92,9 +89,5 @@ public class StudentDao implements StudentDaoInterface<Student, String> {
 			delete(entity);
 		}
 	}
-
-	
-
-	
 
 }

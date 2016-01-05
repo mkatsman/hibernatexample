@@ -13,37 +13,34 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.JoinColumn;  
+import javax.persistence.JoinColumn;
 
 import org.hibernate.Hibernate;
-
-
 
 @Entity
 @Table(name = "student")
 public class Student {
 
-
 	@Column(name = "student_id")
 	private Integer studentId;
-	
-	@Column(name= "name")
+
+	@Column(name = "name")
 	String name;
-	
-	 Set<Course> courses = new HashSet<Course>();
-	
+
+	Set<Course> courses = new HashSet<Course>();
+
 	public Student() {
 	}
 
 	public Student(String name) {
-	
+
 		this.name = name;
-	
+
 	}
-	
+
 	@Id
 	@Column(name = "student_id", unique = true, nullable = false)
-	@GeneratedValue(strategy=GenerationType.IDENTITY) 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getId() {
 		return studentId;
 	}
@@ -51,7 +48,7 @@ public class Student {
 	public void setId(Integer id) {
 		this.studentId = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -60,22 +57,19 @@ public class Student {
 		this.name = name;
 	}
 
-		
 	@Override
 	public String toString() {
-		return "Student: " + this.studentId + ", " + this.name ;
+		return "Student: " + this.studentId + ", " + this.name;
 	}
-	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)  
-    @JoinTable( name="student_course", joinColumns=@JoinColumn(name="student_id"), inverseJoinColumns=@JoinColumn(name="course_id"))  
-    public Set<Course> getCourses()  
-    {  
-		return courses;  
-    }  
-    public void setCourses(Set<Course> courses)  
-    {  
-        this.courses = courses;  
-    }
-    
-   
-	
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "student_course", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
+	public Set<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(Set<Course> courses) {
+		this.courses = courses;
+	}
+
 }
